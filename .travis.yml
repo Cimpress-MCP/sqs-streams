@@ -1,4 +1,5 @@
 language: java
+jdk: oraclejdk8
 env:
   global:
     # OSSRH_JIRA_USERNAME
@@ -18,5 +19,4 @@ cache:
     - ~/.m2/repository
 
 after_success:
-  - ./deploy/before-deploy.sh
   - ./deploy/deploy.sh
