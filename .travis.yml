@@ -11,12 +11,16 @@ env:
     # GPG_PASSPHRASE
     - secure: 4x6W2F43qZm22ONv4eXZhzmsLgw/G8pI+YWXRoPHOQ2uAXTaJ01mm3Hz0gRRAuxmhB9RI3U86uuzI8kImE4e+BPNsJHLEigTDyIGp0nBaD6KXU6afL4PlIqq9HYs8wvNaQbkTKGWUq3Dyaji0LFDWXhXxfqwNM0H1936beDqiu+RT3otFClbEDbyA67OQPhy8Xy+C3dv9+19YSg9QDAO66hvf0k5a99NpIGxz7VmcfW0H3UxKk0VfqqBhaLv2/wk6HqBb/aQzUGRwFekcLul6RnaTlMh01IXvR95tA+ChucayXNFsM4FvzuPO2mMeqdMeft0rNzR7HHjhC9kvWE9IGGOl+71T33JhbGXW4ZAzVa2TxECqZvKnXKHQYHW7cEWmzA4JzMkloF0xV+k32Yo6a50A6QYqXrr1wLQaxyVessLgCUM1h++C3BFFa3pFSjYBaakWQKDHLZZRRMB6F2XzDFKr3vLBqyb9NdMvFeD79/LiyI/QPk9zorHNU/pF+0AcvUm5sfG4B1hS/g9SnvbbvUy6o+vETxok/Ao4WtUDEhjnd9SYcxJ0L97KKVuiH6Psyyo42gxr/MIWzkdf3F0AZebf6L+XriLWsis8/qnYxaRinBpLO8Z+omoFLtcS/PCd70Sg8oaa+yBuRjYRj7AeTN4Ae5vL7MDAMomLQx8ugQ=
 
-install: mvn install -P !build-extras -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-script: mvn test -P !build-extras -B
+before_install:
+  - mvn build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.${TRAVIS_BUILD_NUMBER}-${TRAVIS_COMMIT:0:7}
 
 cache:
   directories:
     - ~/.m2/repository
 
-after_success:
-  - ./deploy/deploy.sh
+deploy:
+  provider: script
+  script: ./deploy/deploy.sh
+  skip_cleanup: true
+  on:
+    branch: master
