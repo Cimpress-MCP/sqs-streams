@@ -17,7 +17,7 @@ public class SqsConfiguration {
   private Integer workers = 50;
   private Optional<Integer> defaultRetryDelaySeconds = Optional.empty();
   private Optional<Integer> defaultPollSeconds = Optional.empty();
-  private Optional<AWSCredentialsProvider> credentialsProvider;
+  private Optional<AWSCredentialsProvider> credentialsProvider = Optional.empty();
 
   public String getRegion() {
     return region;
