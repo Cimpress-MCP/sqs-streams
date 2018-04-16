@@ -43,7 +43,7 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-sqs</artifactId>
-            <version>1.11.93</version>
+            <version>1.11.313</version>
         </dependency>
         <dependency>
             <groupId>net.logstash.logback</groupId>
