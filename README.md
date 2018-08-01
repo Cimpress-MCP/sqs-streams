@@ -19,7 +19,7 @@ Add sqs-streams as a dependency to your project.
 <dependency>
   <groupId>io.cimpress.mcp</groupId>
   <artifactId>sqs-streams</artifactId>
-  <version>0.4.0</version>
+  <version>0.7.46-5cddac7</version>
 </dependency>
 ```
 
