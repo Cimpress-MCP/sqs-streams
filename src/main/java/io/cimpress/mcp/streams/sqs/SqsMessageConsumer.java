@@ -132,6 +132,7 @@ public class SqsMessageConsumer implements StreamConsumer<Message> {
         String dlqArn = SqsUtils.getQueueArn(this.client, dlqUrl);
         setQueueAttributesRequest.addAttributesEntry("RedrivePolicy", formatRedrivePolicy(options.maxReads.toString(), dlqArn));
       });
+      options.attributes.entrySet().stream().forEach(attribute -> setQueueAttributesRequest.addAttributesEntry(attribute.getKey(), attribute.getValue()));
       client.setQueueAttributes(setQueueAttributesRequest);
 
     } catch (Exception e) {

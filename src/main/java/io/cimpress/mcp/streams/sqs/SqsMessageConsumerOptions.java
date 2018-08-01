@@ -1,6 +1,8 @@
 package io.cimpress.mcp.streams.sqs;
 
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class SqsMessageConsumerOptions {
@@ -12,6 +14,7 @@ public class SqsMessageConsumerOptions {
   Integer delaySeconds = 0;
   Integer maxReads = 10;
   Optional<BackoffPolicy<Throwable>> backOffPolicy = Optional.empty();
+  Map<String, String> attributes = new HashMap<>();
 
   public SqsMessageConsumerOptions withWaitTimeSeconds(Integer maxWait) {
     this.maxWait = maxWait;
@@ -48,4 +51,8 @@ public class SqsMessageConsumerOptions {
     return this;
   }
 
+  public SqsMessageConsumerOptions withAttributes(Map<String, String> attributes) {
+    this.attributes = attributes;
+    return this;
+  }
 }
