@@ -54,7 +54,8 @@ public class SqsRetryWorker<INPUT> {
     SqsMessageConsumerOptions consumerOptions = new SqsMessageConsumerOptions().withVisibilityTimeout(options.retryBaseDelaySeconds)
         .withMaxNumberOfMessages(options.maxMessages)
         .withMaxReads(options.maxRetries)
-        .withWaitTimeSeconds(options.maxWait);
+        .withWaitTimeSeconds(options.maxWait)
+        .withAttributes(options.attributes);
     this.options.dlqName.map(dlqName -> consumerOptions.withDlqName(dlqName));
     this.consumer = new SqsMessageConsumer(options.client, SqsUtils.buildQueueName(processorQName, RETRY_Q_POSTFIX), consumerOptions);
     this.producer = this.consumer.createProducer(mapper);

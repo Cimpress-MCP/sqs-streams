@@ -75,7 +75,8 @@ public class SqsBackgroundProcessor<INPUT> implements BackgroundProcessor<INPUT>
         .withMaxNumberOfMessages(options.maxMessages)
         .withVisibilityTimeout(options.timeout)
         .withMaxReads(options.maxRetries)
-        .withWaitTimeSeconds(options.maxWait);
+        .withWaitTimeSeconds(options.maxWait)
+        .withAttributes(options.attributes);
     this.options.dlqName.map(dlqName -> consumerOptions.withDlqName(dlqName));
     this.consumer = new SqsMessageConsumer(this.client, this.name, consumerOptions);
     this.producer = consumer.createProducer(mapper);

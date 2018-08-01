@@ -5,6 +5,8 @@ import com.amazonaws.services.sqs.AmazonSQS;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import rx.Completable;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -22,6 +24,7 @@ public class SqsBackgroundProcessorOptions<INPUT> {
   Integer delaySeconds = 0;
   Integer maxRetries = 10;
   Integer retryBaseDelaySeconds = 3600;
+  Map<String, String> attributes = new HashMap<>();
 
 
   Optional<BackoffPolicy<Throwable>> backOffPolicy = Optional.empty();
@@ -88,6 +91,11 @@ public class SqsBackgroundProcessorOptions<INPUT> {
 
   public SqsBackgroundProcessorOptions<INPUT> withRetryBaseDelaySeconds(Integer delay) {
     this.retryBaseDelaySeconds = delay;
+    return this;
+  }
+
+  public SqsBackgroundProcessorOptions<INPUT> withAttributes(Map<String, String> attributes) {
+    this.attributes = attributes;
     return this;
   }
 }
