@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.cimpress-mcp</groupId>
     <artifactId>sqs-streams</artifactId>
-    <version>0.7.0-SNAPSHOT</version>
+    <version>0.8.0-SNAPSHOT</version>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>A reactive interface for consuming AWS SQS messages using rxJava, with a high-level component for queueing data to be processed by a user-supplied function with retries and exponential backoff.</description>
     <url>https://github.com/Cimpress-MCP/sqs-streams</url>
@@ -205,7 +205,7 @@
                     <violationSeverity>warning</violationSeverity>
                     <consoleOutput>true</consoleOutput>
                     <suppressionsLocation>
-                        https://d3pplzd8p0b0qt.cloudfront.net/checkstyle-suppressions.xml
+                        https://raw.githubusercontent.com/Cimpress-MCP/gitlab-continuous-integration/master/checkstyle-suppressions.xml
                     </suppressionsLocation>
                     <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
                 </configuration>

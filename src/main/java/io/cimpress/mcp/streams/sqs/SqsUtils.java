@@ -17,8 +17,6 @@ import java.io.IOException;
 
 public class SqsUtils {
 
-  private static final Logger LOG = LoggerFactory.getLogger(SqsUtils.class);
-
   public static String buildQueueName(String... parts) {
     String name = String.join("-", parts);
     return name;
