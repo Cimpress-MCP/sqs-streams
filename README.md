@@ -10,7 +10,7 @@ The BackgroundProcessor API and SQS implementation could be moved to their own p
 
 **BETA - Expect the API to change.  There are no compatibility guarantees between versions**
 
-### Getting Started
+## Getting Started
 
 Add sqs-streams as a dependency to your project.
 
@@ -24,11 +24,11 @@ Add sqs-streams as a dependency to your project.
 ```
 
 
-### Usage
+## Usage
 
 Currently tests are the best way to understand how to use this library in your project.
 
-#### SqsMessageConsumer and SqsMessageProducer
+### SqsMessageConsumer and SqsMessageProducer
 
 The SqsMessageConsumer implementation provides a reactive API for consuming SQS messages.  It also provides an SqsMessageProducer to enqueue the messages. This low-level API is used in the BackgroundProcessor but can also be used directly for other use cases.
 
@@ -43,7 +43,7 @@ producer.send("hello").await();
 ```
 
 
-#### BackgroundProcessor
+### BackgroundProcessor
 
 There is an SQS implementation of the BackgroundProcessor interface to enable durably queueing data to be processed asynchronously with retries and exponential backoff.
 
@@ -59,3 +59,9 @@ processor.start();
 
 processor.process("hello").await(); //Don't forget to subscribe or await to the Completable result
 ```
+
+## Change Log
+
+### 0.8
+
+Added informational interface which can be implemented by thrown exceptions so that when they cause backoff, the backoff log can say why

@@ -1,15 +1,16 @@
 package io.cimpress.mcp.streams.sqs;
 
 
+import net.logstash.logback.marker.Markers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
 import java.util.concurrent.TimeUnit;
-import java.util.function.BiConsumer;
 
-final class ExponentialIntervalTransformer<T> implements Observable.Transformer<T, Long> {
+final class ExponentialIntervalTransformer<T extends Throwable> implements Observable.Transformer<T, Long> {
 
 
   private static final Logger LOG = LoggerFactory.getLogger(ExponentialIntervalTransformer.class);
@@ -39,7 +40,7 @@ final class ExponentialIntervalTransformer<T> implements Observable.Transformer<
   public Observable<Long> call(Observable<T> observable) {
     return observable.flatMap(t -> {
       int backoff = 0;
-      BiConsumer<String, Object> logMethod = LOG::debug;
+      TriConsumer<Marker, String, Throwable> logMethod = LOG::debug;
       if (t instanceof EmptyQueueException) {
         backoff = backoffPolicy.getSleepDuration();
       } else if (backoffPolicy.shouldDelay(t)) {
@@ -47,9 +48,21 @@ final class ExponentialIntervalTransformer<T> implements Observable.Transformer<
         logMethod = LOG::warn;
       }
 
-      logMethod.accept("Backing off observable for " + backoff + " seconds", t);
+      Marker marker;
+      if (t instanceof Marked) {
+        marker = Marked.class.cast(t).getMarker();
+      } else {
+        marker = Markers.append("underlyingMessage", t.getMessage());
+      }
+
+      logMethod.accept(marker, "Backing off observable for " + backoff + " seconds", t);
       return Observable.timer(backoff, TimeUnit.SECONDS, Schedulers.io())
           .doOnCompleted(() -> LOG.debug("Observable backoff completed"));
     });
+  }
+
+  @FunctionalInterface
+  private interface TriConsumer<T, V, U> {
+    void accept(T param1, V param2, U param3);
   }
 }
